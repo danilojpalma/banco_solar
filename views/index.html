@@ -227,6 +227,10 @@
 </style>
 
 <script>
+  $(document).ready(function() {
+    getTransferencias(); 
+  });
+
   const setInfoModal = (nombre, balance, id) => {
     $("#nombreEdit").val(nombre);
     $("#balanceEdit").val(balance);
@@ -234,13 +238,13 @@
   };
 
   const editUsuario = async (id) => {
-    const name = $("#nombreEdit").val();
+    const nombre = $("#nombreEdit").val();
     const balance = $("#balanceEdit").val();
     try {
       const { data } = await axios.put(
         `http://localhost:3000/usuario?id=${id}`,
         {
-          name,
+          nombre,
           balance,
         }
       );
@@ -343,12 +347,14 @@
     $(".transferencias").html("");
 
     data.forEach((t) => {
+
+      console.log(t);
       $(".transferencias").append(`
        <tr>
-         <td> ${formatDate(t[4])} </td>
-         <td> ${t[1]} </td>
-         <td> ${t[2]} </td>
-         <td> ${t[3]} </td>
+         <td> ${formatDate(t.fecha)} </td>
+         <td> ${t.emisor} </td>
+         <td> ${t.receptor} </td>
+         <td> ${t.monto} </td>
        </tr>
      `);
     });
